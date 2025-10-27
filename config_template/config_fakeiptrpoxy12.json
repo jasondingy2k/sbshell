@@ -1,14 +1,9 @@
 {
   "dns": {
     "servers": [
-      {"tag": "local", "type": "udp", "server": "192.168.1.4"},
-    ],
-    "rules": [
-      {"clash_mode": "direct", "server": "local"},
-      {"clash_mode": "global", "server": "local"},
-      {"rule_set": ["geosite-cn", "geosite-private"], "server": "local"},      
-    ],
-    "final": "local",
+      {"tag": "mosdns", "type": "udp", "server": "192.168.1.4"}
+    ],    
+    "final": "mosdns",
     "strategy": "prefer_ipv4",
     "disable_cache": true,
     "independent_cache": false
@@ -95,7 +90,7 @@
     "final": "🐠 漏网之鱼",
     "auto_detect_interface": true,
     "default_mark": 666,
-    "default_domain_resolver": {"server": "public"}
+    "default_domain_resolver": {"server": "mosdns"}
   },
   "inbounds": [
     {
