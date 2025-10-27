@@ -53,7 +53,8 @@
  {
    "rules": 
    [
-     {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},     
+     {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
+     {"type": "logical", "mode": "or", "rules": [{"port": 53}, {"protocol": "dns"}], "action": "hijack-dns"},
      {"ip_is_private": true, "outbound": "➡️ 直连"},
      {"clash_mode": "direct", "outbound": "➡️ 直连"},
      {"clash_mode": "global", "outbound": "GLOBAL"},
