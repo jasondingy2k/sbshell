@@ -70,7 +70,7 @@
      {"rule_set": ["geosite-apple", "geoip-apple"], "outbound": "🍏 Apple"},
      {"rule_set": "geosite-onedrive", "outbound": "🐬 OneDrive"},
      {"rule_set": "geosite-microsoft", "outbound": "🪟 Microsoft"},
-     {"rule_set": "geosite-geolocation-!cn", "outbound": "🚀 节点选择"},
+     {"rule_set": "geosite-geolocation-!cn", "outbound": "🚀 默认代理"},
      {"rule_set": ["geoip-cn", "geosite-cn"], "outbound": "➡️ 直连"}
    ],
     
