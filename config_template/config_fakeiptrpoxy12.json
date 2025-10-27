@@ -2,7 +2,12 @@
   "dns": {
     "servers": [
       {"tag": "mosdns", "type": "udp", "server": "192.168.1.4"}
-    ],    
+    ],
+    "rules": [
+      {"clash_mode": "direct", "server": "mosnds"},
+      {"clash_mode": "global", "server": "mosdns"},
+      {"rule_set": ["geosite-cn", "geosite-private"], "server": "mosdns"},      
+    ],
     "final": "mosdns",
     "strategy": "prefer_ipv4",
     "disable_cache": true,
