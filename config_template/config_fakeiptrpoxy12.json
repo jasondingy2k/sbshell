@@ -6,7 +6,7 @@
     "rules": [
       {"clash_mode": "direct", "server": "mosnds"},
       {"clash_mode": "global", "server": "mosdns"},
-      {"rule_set": ["geosite-cn", "geosite-private"], "server": "mosdns"},      
+      {"rule_set": ["geosite-cn", "geosite-private"], "server": "mosdns"}
     ],
     "final": "mosdns",
     "strategy": "prefer_ipv4",
