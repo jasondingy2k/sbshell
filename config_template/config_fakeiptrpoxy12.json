@@ -1,9 +1,9 @@
 {
   "dns": {
     "servers": [
-      {"tag": "local", "type": "udp", "server": "192.168.1.4"}
+      {"tag": "mosdns", "type": "udp", "server": "192.168.1.4"}
     ],    
-    "final": "local",
+    "final": "mosdns",
     "strategy": "prefer_ipv4",
     "disable_cache": true,
     "independent_cache": false
@@ -92,7 +92,7 @@
     "final": "🐠 漏网之鱼",
     "auto_detect_interface": true,
     "default_mark": 666,
-    "default_domain_resolver": {"server": "local"}
+    "default_domain_resolver": {"server": "mosdns"}
   },
   "inbounds": [
     {
