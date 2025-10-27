@@ -2,8 +2,8 @@
  "dns": {
     "servers": [
       { "tag": "local", "type": "udp", "server": "192.168.1.4" },
-      { "tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local" },
-      { "tag": "foreign", "type": "https", "server": "1.1.1.1",  "detour": "🚀 默认代理" }
+      { "tag": "public", "type": "udp", "server": "192.168.1.4" },
+      { "tag": "foreign", "type": "udp", "server": "192.168.1.4",  "detour": "🚀 默认代理" }
     ],
    "rules": [
       {"clash_mode": "direct", "server": "local"},
@@ -13,7 +13,7 @@
       {"rule_set": ["geosite-cn", "geosite-apple", "geosite-private"], "server": "local"}
     ],
    "final": "foreign",
-   "strategy": "ipv4_only",
+   "strategy": "prefer_ipv4",
    "independent_cache": true
 },
 
