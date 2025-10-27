@@ -1,18 +1,16 @@
 {
  "dns": {
     "servers": [
-      { "tag": "local", "type": "udp", "server": "192.168.1.4" },
-      { "tag": "public", "type": "udp", "server": "192.168.1.4" },
-      { "tag": "foreign", "type": "udp", "server": "192.168.1.4",  "detour": "🚀 默认代理" }
+      { "tag": "local", "type": "udp", "server": "192.168.1.4" },      
     ],
    "rules": [
       {"clash_mode": "direct", "server": "local"},
-      {"clash_mode": "global", "server": "foreign"},
-      {"domain_suffix": ["services.googleapis.cn", "googleapis.cn", "xn--ngstr-lra8j.com"],  "server": "foreign"},
-      {"rule_set": "geosite-google", "server": "foreign"},
+      {"clash_mode": "global", "server": "local"},
+      {"domain_suffix": ["services.googleapis.cn", "googleapis.cn", "xn--ngstr-lra8j.com"],  "server": "local"},
+      {"rule_set": "geosite-google", "server": "local"},
       {"rule_set": ["geosite-cn", "geosite-apple", "geosite-private"], "server": "local"}
     ],
-   "final": "foreign",
+   "final": "local",
    "strategy": "prefer_ipv4",
    "independent_cache": true
 },
@@ -107,7 +105,7 @@
     "final": "🐠 漏网之鱼",
     "auto_detect_interface": true,
     "default_mark": 666,
-    "default_domain_resolver": {"server": "public"}
+    "default_domain_resolver": {"server": "local"}
   },
     "log": {
     "disabled": false,
