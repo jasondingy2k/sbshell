@@ -1,12 +1,10 @@
 {
  "dns": {
   "servers": [
-    { "tag": "mosdns", "type": "udp", "server": "192.168.1.4" }
+    { "tag": "mosdns", "address": "192.168.1.4" }
   ],
   "final": "mosdns",
-  "strategy": "prefer_ipv4",
-  "disable_cache": true,
-  "independent_cache": false
+  "strategy": "prefer_ipv4"  
 },
 
 "inbounds": [
@@ -14,13 +12,15 @@
     "type": "tproxy",
     "tag": "tproxy-in",
     "listen": "0.0.0.0",
-    "listen_port": 7895
+    "listen_port": 7895,
+    "network": "tcp,udp",
+    "sniff": true
   },
   {
-      "type": "socks",
-      "tag": "socks-in",
-      "listen": "127.0.0.1",
-      "listen_port": 7891
+    "type": "mixed",
+    "tag": "mixed-in",
+    "listen": "127.0.0.1",
+    "listen_port": 7891
   }
 ],
 
@@ -48,18 +48,16 @@
   "route": 
  {
    "rules": 
-   [
-     {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},     
+   [         
+     {"protocol": "dns", "action": "hijack-dns"},
+     {"protocol": "bittorrent", "outbound": "direct"},
      {"ip_is_private": true, "outbound": "➡️ 直连"},
-     {"clash_mode": "direct", "outbound": "➡️ 直连"},
-     {"domain_suffix":["728966.xyz","518989.xyz"], "outbound": "➡️ 直连"},
-     {"domain":["jinzhuan.eu.org"], "outbound": "➡️ 直连"},
-     {"domain_suffix":["copilot.microsoft.com","copilot-proxy.microsoft.com","copilotcdn.microsoft.com","bing.com","api.bing.com","www.bing.com","microsoftonline.com","login.microsoftonline.com","aadcdn.msftauth.net","msauth.net"],"outbound":"🚀 默认代理"},
+     {"clash_mode": "direct", "outbound": "➡️ 直连"},    
      {"rule_set": "geosite-chat", "outbound": "🧠 AI"},
-     {"domain_suffix":["store.steampowered.com","steamcommunity.com","api.steampowered.com","steamcharts.com"],"outbound":"🎮 Game"},
-     {"domain_suffix":["cdn.steampowered.com","steamcontent.com","steamstatic.com","media.steampowered.com"],"outbound":"➡️ 直连"},
+     {"domain_suffix":["store.steampowered.com","steamcommunity.com","api.steampowered.com","steamcharts.com"],"outbound":"🚀 默认代理"},
+     {"domain_suffix":["cdn.steampowered.com","steamcontent.com","steamstatic.com","728966.xyz","518989.xyz", "media.steampowered.com"],"outbound":"➡️ 直连"},
      {"clash_mode": "global", "outbound": "GLOBAL"},
-     {"domain": ["clash.razord.top", "yacd.metacubex.one", "yacd.haishan.me", "d.metacubex.one"], "outbound": "➡️ 直连"},
+     {"domain": ["clash.razord.top", "yacd.metacubex.one", "yacd.haishan.me", "jinzhuan.eu.org", "d.metacubex.one"], "outbound": "➡️ 直连"},
      {"rule_set": "geosite-private", "outbound": "➡️ 直连"}, 
      {"rule_set": "geosite-youtube", "outbound": "📹 YouTube"},
      {"rule_set": "geosite-github", "outbound": "👨‍💻 Github"},
