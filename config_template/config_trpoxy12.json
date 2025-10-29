@@ -1,9 +1,9 @@
 {
  "dns": {
   "servers": [
-    { "tag": "mosdns", "address": "192.168.1.4" }
+    { "tag": "adgh", "address": "192.168.1.4" }
   ],
-  "final": "mosdns",
+  "final": "adgh",
   "strategy": "prefer_ipv4"  
 },
 
@@ -98,7 +98,7 @@
     "final": "🐠 漏网之鱼",
     "auto_detect_interface": true,
     "default_mark": 666,
-    "default_domain_resolver": {"server": "mosdns"}
+    "default_domain_resolver": {"server": "adgh"}
   },
     "log": {
     "disabled": false,
