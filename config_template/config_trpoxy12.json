@@ -1,7 +1,7 @@
 {
  "dns": {
   "servers": [
-    { "tag": "adgh", "address": "192.168.1.4" }
+    { "tag": "adgh", "server": "192.168.1.4" }
   ],
   "final": "adgh",
   "strategy": "prefer_ipv4"  
