@@ -72,6 +72,8 @@
      {"domain_suffix": ["steamcontent.com","steamcdn-a.akamaihd.net","steamserver.net","steamstatic.com","cs.steampowered.com"], "outbound": "➡️ 直连"},
      {"rule_set": ["steam_cn_domain"], "outbound": "➡️ 直连"},
      {"rule_set": ["proxylite"], "outbound": "🚀 默认代理"},
+     {"rule_set":["github_domain"],"disable_aaaa":true},
+     {"rule_set":["ai"],"disable_aaaa":true},
      {"rule_set": ["ai"], "outbound": "🤖 ChatGPT"},
      {"rule_set": ["adult_domain"], "outbound": "🕹️ 手动选择"},
      {"rule_set": ["youtube_domain"], "outbound": "📹 YouTube"},
