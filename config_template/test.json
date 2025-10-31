@@ -65,7 +65,7 @@
      {"rule_set": "geosite-private", "outbound": "➡️ 直连"},   
      {"domain_suffix": ["qichiyu.com"], "outbound": "🚀 默认代理"},     
      {"domain_suffix": ["728966.xyz","518989.xyz"], "outbound": "➡️ 直连"},    
-     {"port": [38989], "outbound": "➡️ 直连" },
+     {"source_ip_cidr":["192.168.1.5/32"],"port":[38989],"outbound":"➡️ 直连"},
      {"rule_set": ["geosite-cn","geoip-cn"], "outbound": "➡️ 直连"},
      {"domain_suffix": ["alicdn.com","taobaocdn.com","tencentcdn.com","gtimg.com","baiducdn.com","upaiyun.com","qiniucdn.com"], "outbound": "➡️ 直连"},
      {"domain_suffix": ["steamcontent.com","steamcdn-a.akamaihd.net","steamserver.net","steamstatic.com","cs.steampowered.com"], "outbound": "➡️ 直连"},
