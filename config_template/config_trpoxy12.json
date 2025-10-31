@@ -49,7 +49,7 @@
  {
    "rules": 
    [         
-     {"protocol": "dns", "action": "hijack-dns"},
+     {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
      {"protocol": "bittorrent", "outbound": "direct"},
      {"ip_is_private": true, "outbound": "➡️ 直连"},
      {"clash_mode": "direct", "outbound": "➡️ 直连"},    
