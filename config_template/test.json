@@ -1,7 +1,7 @@
 {
  "dns": {
   "servers": [
-    { "tag": "adgh", "type": "udp", "server": "192.168.1.4", "detour": "direct"}
+    { "tag": "adgh", "type": "udp", "server": "192.168.1.4"}
   ],
   "final": "adgh",
   "strategy": "prefer_ipv4",
@@ -45,7 +45,7 @@
     {"tag":"💶 PayPal","type":"selector","outbounds":["🚀 默认代理","🇺🇸 美国节点","🇯🇵 日本节点","🇰🇷 韩国节点","🕹️ 手动选择","➡️ 直连"]},
     {"tag":"🍎 Apple","type":"selector","outbounds":["➡️ 直连","🚀 默认代理"]},
     {"tag":"🐟 漏网之鱼","type":"selector","outbounds":["🚀 默认代理","➡️ 直连"]},
-    {"tag":"➡️ 直连","type":"selector","outbounds":["direct"]},
+    {"tag":"➡️ 直连","type":"direct"},
     {"tag":"🌐 全部节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["TCP","TLS","直连","DIRECT","REJECT"]}]},
     {"tag":"♻️ 自动选择","type":"urltest","outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["直连","TCP","TLS"]}],"interval":"300s","tolerance":100}
   ],
@@ -83,12 +83,12 @@
      {"rule_set": ["geosite-netflix"], "outbound": "🎥 Netflix"},
      {"rule_set": ["geosite-paypal"], "outbound": "💶 PayPal"},
      {"rule_set": ["geosite-steam"], "outbound": "🎮 Steam"},
-     {"rule_set": ["reddit_domain"], "outbound": "💬 Reddit"},
-     {"rule_set": ["google_ip"], "outbound": "🍀 Google"},
-     {"rule_set": ["netflix_ip"], "outbound": "🎥 Netflix"},
-     {"rule_set": ["telegram_ip"], "outbound": "📲 Telegram"},     
+     {"rule_set": ["geosite-reddit"], "outbound": "💬 Reddit"},
+     {"rule_set": ["geoip-google"], "outbound": "🍀 Google"},
+     {"rule_set": ["geoip-netflix"], "outbound": "🎥 Netflix"},
+     {"rule_set": ["geoip-telegram"], "outbound": "📲 Telegram"},     
      {"domain_suffix": ["cloudflare.com","cloudflarecdn.com","fastly.net","jsdelivr.net","githubusercontent.com","gravatar.com","unpkg.com","cdnjs.com"], "outbound": "🚀 默认代理"},     
-     {"rule_set": ["geolocation-!cn"], "outbound": "🚀 默认代理"},
+     {"rule_set": ["geosite-geolocation-!cn"], "outbound": "🚀 默认代理"},
      {"outbound": "🐟 漏网之鱼"} 
    ],
     
