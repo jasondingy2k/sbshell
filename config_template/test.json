@@ -1,14 +1,16 @@
 {
- "dns": {
-  "servers": [
-    { "tag": "adgh", "type": "udp", "server": "192.168.1.4"}
-  ],
- "rules": [    
-    {"rule_set":"geosite-geolocation-!cn","server":"foreign"},{"type":"dns","outbound":"block","rule":"query_type == AAAA"},{"dns":{"strategy":"ipv4_only"}    
-  ],
- "final": "adgh",
- "strategy": "prefer_ipv4"  
-},
+  "dns": {
+    "servers": [
+      { "tag": "adgh", "type": "udp", "server": "192.168.1.4" }
+    ],
+    "rules": [
+      { "rule_set": "geosite-geolocation-!cn", "server": "adgh" },
+      { "type": "dns", "outbound": "block", "rule": "query_type == AAAA" }
+    ],
+    "final": "adgh",
+    "strategy": "ipv4_only"
+  }
+}
 
 "inbounds": [
   {
