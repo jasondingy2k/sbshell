@@ -84,9 +84,9 @@
      {"rule_set": ["geosite-paypal"], "outbound": "💶 PayPal"},
      {"rule_set": ["geosite-steam"], "outbound": "🎮 Steam"},
      {"rule_set": ["reddit_domain"], "outbound": "💬 Reddit"},
-     {"rule_set": ["google_ip"], "outbound": "🍀 Google", "disable_resolve": true},
-     {"rule_set": ["netflix_ip"], "outbound": "🎥 Netflix", "disable_resolve": true},
-     {"rule_set": ["telegram_ip"], "outbound": "📲 Telegram", "disable_resolve": true},     
+     {"rule_set": ["google_ip"], "outbound": "🍀 Google"},
+     {"rule_set": ["netflix_ip"], "outbound": "🎥 Netflix"},
+     {"rule_set": ["telegram_ip"], "outbound": "📲 Telegram"},     
      {"domain_suffix": ["cloudflare.com","cloudflarecdn.com","fastly.net","jsdelivr.net","githubusercontent.com","gravatar.com","unpkg.com","cdnjs.com"], "outbound": "🚀 默认代理"},     
      {"rule_set": ["geolocation-!cn"], "outbound": "🚀 默认代理"},
      {"outbound": "🐟 漏网之鱼"} 
