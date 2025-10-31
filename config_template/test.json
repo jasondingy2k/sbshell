@@ -88,7 +88,6 @@
      {"rule_set": ["netflix_ip"], "outbound": "🎥 Netflix", "disable_resolve": true},
      {"rule_set": ["telegram_ip"], "outbound": "📲 Telegram", "disable_resolve": true},     
      {"domain_suffix": ["cloudflare.com","cloudflarecdn.com","fastly.net","jsdelivr.net","githubusercontent.com","gravatar.com","unpkg.com","cdnjs.com"], "outbound": "🚀 默认代理"},     
-     {"source_ip_cidr": ["192.168.1.5/32"], "outbound": "🚀 默认代理"},
      {"rule_set": ["geolocation-!cn"], "outbound": "🚀 默认代理"},
      {"outbound": "🐟 漏网之鱼"} 
    ],
