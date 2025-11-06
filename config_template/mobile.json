@@ -13,7 +13,7 @@
       {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
     ],
     "final": "foreign",
-    "strategy": "ipv4_only",
+    "strategy": "prefer_ipv4",
     "independent_cache": true
   },
   "outbounds": [
