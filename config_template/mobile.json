@@ -28,7 +28,7 @@
     {"tag":"🍎 Apple","type":"selector","outbounds":["➡️ 直连","🚀 默认代理"]},
     {"tag":"🐟 漏网之鱼","type":"selector","outbounds":["🚀 默认代理","➡️ 直连"]},
     {"tag":"➡️ 直连","type":"direct"},
-    {"tag":"🌐 全部节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["virmach","aws"]},{"action":"exclude","keywords":["TCP","TLS"]}]}
+    {"tag":"🌐 全部节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["virmach"]},{"action":"exclude","keywords":["TCP","TLS"]}]}
   ],
   "route": {
     "rules": [
