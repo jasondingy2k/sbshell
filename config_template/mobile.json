@@ -6,9 +6,7 @@
       {"tag": "foreign", "type": "https", "server": "dns.google", "domain_resolver": "local"},
       {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
     ],
-    "rules": [
-      {"clash_mode": "direct", "server": "local"},
-      {"clash_mode": "global", "server": "foreign"},
+    "rules": [      
       {"rule_set": ["geosite-cn", "geosite-apple"], "server": "local"},
       {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
     ],
@@ -34,11 +32,9 @@
     "rules": [
       {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
       {"type": "logical", "mode": "or", "rules": [{"port": 53}, {"protocol": "dns"}], "action": "hijack-dns"},
-      {"ip_is_private": true, "outbound": "➡️ 直连"},
-      {"clash_mode": "direct", "outbound": "➡️ 直连"},
+      {"ip_is_private": true, "outbound": "➡️ 直连"},      
       {"domain_suffix": ["728966.xyz","518989.xyz"], "outbound": "➡️ 直连"},
-      {"domain": ["clash.razord.top", "yacd.metacubex.one", "yacd.haishan.me", "jinzhuan.eu.org", "d.metacubex.one"], "outbound": "➡️ 直连"},
-      {"clash_mode": "global", "outbound": "GLOBAL"},
+      {"domain": ["clash.razord.top", "yacd.metacubex.one", "yacd.haishan.me", "jinzhuan.eu.org", "d.metacubex.one"], "outbound": "➡️ 直连"},     
       {"rule_set": "geosite-ai", "outbound": "🧠 AI"},     
       {"rule_set": "geosite-apple", "outbound": "🍎 Apple"},      
       {"rule_set": "geosite-netflix", "outbound": "🎥 Netflix"},       
