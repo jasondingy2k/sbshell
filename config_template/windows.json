@@ -1,19 +1,31 @@
 {
-  "dns": {
+ "dns": {
     "servers": [
-      {"tag": "local", "type": "udp", "server": "223.5.5.5"},
-      {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local"},
-      {"tag": "foreign", "type": "https", "server": "dns.google", "domain_resolver": "local"},
-      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
+      { "tag": "local", "type": "udp", "server": "223.5.5.5" },
+      { "tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local" },
+      { "tag": "foreign", "type": "https", "server": "1.1.1.1",  "detour": "🕹️ 手动选择" }
     ],
-    "rules": [      
-      {"rule_set": ["geosite-cn", "geosite-apple"], "server": "local"},
-      {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
+   "rules": [
+      {"clash_mode": "direct", "server": "local"},
+      {"clash_mode": "global", "server": "foreign"},
+      {"domain_suffix": ["services.googleapis.cn", "googleapis.cn", "xn--ngstr-lra8j.com"],  "server": "foreign"},
+      {"rule_set": "geosite-google", "server": "foreign"},
+      {"rule_set": ["geosite-cn", "geosite-apple", "geosite-private"], "server": "local"}
     ],
-    "final": "public",
-    "strategy": "prefer_ipv4",
-    "independent_cache": true
-  },
+   "final": "foreign",
+   "strategy": "prefer_ipv4",
+   "independent_cache": true
+},
+
+"inbounds": [
+  {
+    "type": "mixed",
+    "tag": "mixed-in",
+    "listen": "127.0.0.1",
+    "listen_port": 20122
+  }
+],
+  
   "outbounds": [
     {"tag":"🚀 默认代理","type":"selector","outbounds":["🌐 全部节点","🕹️ 手动选择","➡️ 直连"]},
     {"tag":"🕹️ 手动选择","type":"selector","outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["TCP","TLS"]}]},    
@@ -84,27 +96,12 @@
     "auto_detect_interface": true,    
     "default_domain_resolver": {"server": "public"}
   },
-  "inbounds": [
-    {
-      "tag": "tun-in",
-      "type": "tun",
-      "address": [
-        "172.19.0.1/30",
-        "fdfe:dcba:9876::1/126"
-      ],
-      "mtu": 9000,
-      "auto_route": true,
-      "auto_redirect": true,
-      "strict_route": true
-    }
-  ],
+  
   "experimental": {
     "cache_file": {
       "enabled": true,
-      "path": "cache.db",
-      "store_rdrc": true,
-      "rdrc_timeout": "7d",
-      "store_fakeip": true
+      "path": "cache.db",      
+      "store_fakeip": false
     },
     "clash_api": {
       "external_controller": "0.0.0.0:9095",
