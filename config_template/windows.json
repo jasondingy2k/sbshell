@@ -9,8 +9,8 @@
       {"clash_mode": "direct", "server": "local"},
       {"clash_mode": "global", "server": "foreign"},
       {"domain_suffix": ["services.googleapis.cn", "googleapis.cn", "xn--ngstr-lra8j.com"],  "server": "foreign"},
-      {"rule_set": "geosite-google", "server": "foreign"},
-      {"rule_set": ["geosite-cn", "geosite-apple", "geosite-private"], "server": "local"}
+      {"rule_set": "geosite-!cn", "server": "foreign"},
+      {"rule_set": ["geosite-cn", "geosite-apple"], "server": "local"}
     ],
    "final": "foreign",
    "strategy": "prefer_ipv4",
