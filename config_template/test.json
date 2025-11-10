@@ -57,6 +57,30 @@
  {
    "rules": 
    [         
+     {
+       "type": "logical",
+       "mode": "or",
+       "rules": [
+         {
+           "rule_set": "geosite-category-ads-all"
+         },
+         {
+           "domain_regex": "^stun\\..+"
+         },
+         {
+           "domain_keyword": [
+             "stun",
+             "httpdns"
+           ]
+         },
+         {
+           "protocol": "stun"
+         }
+       ],
+       "action": "reject",
+       "method": "default",
+       "no_drop": false
+     },
      {"protocol": "dns", "action": "hijack-dns"},
      {"protocol": "bittorrent", "outbound": "➡️ 直连"},
      {"ip_is_private": true, "outbound": "➡️ 直连"},
@@ -105,6 +129,7 @@
       { "tag": "geosite-netflix", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/netflix.srs", "download_detour": "➡️ 直连" },
       { "tag": "geosite-steam", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/steam.srs", "download_detour": "➡️ 直连" },
       { "tag": "geosite-steam-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/steam@cn.srs", "download_detour": "➡️ 直连" },
+      {"tag": "geosite-category-ads-all", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ads-all.srs", "download_detour": "➡️ 直连"}, 
       { "tag": "geosite-apple", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple.srs", "download_detour": "➡️ 直连" },
       { "tag": "geosite-category-porn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-porn.srs", "download_detour": "➡️ 直连" },
       { "tag": "geosite-microsoft", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/microsoft.srs", "download_detour": "➡️ 直连" },
