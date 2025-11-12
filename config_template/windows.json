@@ -1,33 +1,21 @@
 {
- "dns": {
+  "dns": {
     "servers": [
-      { "tag": "local", "type": "udp", "server": "223.5.5.5" },
-      { "tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local" },
-      { "tag": "foreign", "type": "https", "server": "1.1.1.1",  "detour": "🕹️ 手动选择" }
+      {"tag": "local", "type": "udp", "server": "223.5.5.5"},
+      {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local"},
+      {"tag": "foreign", "type": "https", "server": "dns.google", "domain_resolver": "local"},
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.19.0.0/15", "inet6_range": "fb00::/18"}
     ],
-   "rules": [
-      {"clash_mode": "direct", "server": "local"},
-      {"clash_mode": "global", "server": "foreign"},
-      {"domain_suffix": ["services.googleapis.cn", "googleapis.cn", "xn--ngstr-lra8j.com"],  "server": "foreign"},
-      {"rule_set": "geosite-!cn", "server": "foreign"},
-      {"rule_set": ["geosite-cn", "geosite-apple"], "server": "local"}
+    "rules": [      
+      {"rule_set": ["geosite-cn", "geosite-apple"], "server": "local"},
+      {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
     ],
-   "final": "foreign",
-   "strategy": "prefer_ipv4",
-   "independent_cache": true
-},
-
-"inbounds": [
-  {
-    "type": "mixed",
-    "tag": "mixed-in",
-    "listen": "127.0.0.1",
-    "listen_port": 20122
-  }
-],
-  
+    "final": "public",
+    "strategy": "prefer_ipv4",
+    "independent_cache": true
+  },  
   "outbounds": [
-    {"tag":"🚀 默认代理","type":"selector","outbounds":["🌐 全部节点","🕹️ 手动选择","➡️ 直连"]},
+    {"tag":"🚀 默认代理","type":"selector","outbounds":["🌐 全部节点","🇯🇵 日本节点","🇺🇸 美国节点","🇰🇷 韩国节点","🕹️ 手动选择","➡️ 直连"]},
     {"tag":"🕹️ 手动选择","type":"selector","outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["TCP","TLS"]}]},    
     {"tag":"🇯🇵 日本节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["virmach","aws"]},{"action":"exclude","keywords":["TCP","TLS"]}]},    
     {"tag":"🇺🇸 美国节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["racknerd","bwg"]},{"action":"exclude","keywords":["TCP","TLS"]}]},
@@ -38,7 +26,7 @@
     {"tag":"🍎 Apple","type":"selector","outbounds":["➡️ 直连","🚀 默认代理"]},
     {"tag":"🐟 漏网之鱼","type":"selector","outbounds":["🚀 默认代理","➡️ 直连"]},
     {"tag":"➡️ 直连","type":"direct"},
-    {"tag":"🌐 全部节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["virmach"]},{"action":"exclude","keywords":["TCP","TLS"]}]}
+    {"tag":"🌐 全部节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["TCP","TLS"]}]}
   ],
   "route": {
     "rules": [
@@ -96,12 +84,47 @@
     "auto_detect_interface": true,    
     "default_domain_resolver": {"server": "public"}
   },
-  
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "stack": "system",
+      "address": [
+        "172.19.0.1/30",
+        "fbfa:dcea:9876::1/126"
+      ],
+      "route_address": [
+        "0.0.0.0/1",
+        "128.0.0.0/1",
+        "::/1",
+        "8000::/1"
+      ],
+      "route_exclude_address": [
+        "192.168.0.0/24",
+        "192.168.2.0/23",
+        "10.0.0.0/9",
+        "10.128.0.0/9",
+        "172.16.0.0/12",
+        "fc00::/7"
+      ],      
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": false,
+      "sniff": true
+    },
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "listen_port": 21022,
+      "sniff": true,
+      "users": []
+    }
+  ],  
   "experimental": {
     "cache_file": {
       "enabled": true,
       "path": "cache.db",      
-      "store_fakeip": false
+      "store_fakeip": true
     },
     "clash_api": {
       "external_controller": "0.0.0.0:9095",
