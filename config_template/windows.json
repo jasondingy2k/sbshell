@@ -13,9 +13,9 @@
     "final": "public",
     "strategy": "prefer_ipv4",
     "independent_cache": true
-  },  
+  },
   "outbounds": [
-    {"tag":"🚀 默认代理","type":"selector","outbounds":["🌐 全部节点","🇯🇵 日本节点","🇺🇸 美国节点","🇰🇷 韩国节点","🕹️ 手动选择","➡️ 直连"]},
+    {"tag":"🚀 默认代理","type":"selector","outbounds":["🌐 全部节点","🇺🇸 美国节点","🇯🇵 日本节点","🇰🇷 韩国节点","🕹️ 手动选择","➡️ 直连"]},
     {"tag":"🕹️ 手动选择","type":"selector","outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["TCP","TLS"]}]},    
     {"tag":"🇯🇵 日本节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["virmach","aws"]},{"action":"exclude","keywords":["TCP","TLS"]}]},    
     {"tag":"🇺🇸 美国节点","type":"selector","outbounds":["{all}"],"filter":[{"action":"include","keywords":["racknerd","bwg"]},{"action":"exclude","keywords":["TCP","TLS"]}]},
@@ -81,7 +81,7 @@
       {"tag": "geoip-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://github.com/qljsyph/ruleset-icon/raw/refs/heads/main/sing-box/geoip/China-ASN-combined-ip.srs", "download_detour": "➡️ 直连","update_interval": "72h"}
     ],
     "final": "🐟 漏网之鱼",
-    "auto_detect_interface": true,    
+    "auto_detect_interface": true,
     "default_domain_resolver": {"server": "public"}
   },
   "inbounds": [
@@ -90,8 +90,8 @@
       "tag": "tun-in",
       "stack": "system",
       "address": [
-        "172.19.0.1/30",
-        "fbfa:dcea:9876::1/126"
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
       ],
       "route_address": [
         "0.0.0.0/1",
@@ -114,27 +114,17 @@
     },
     {
       "type": "mixed",
-      "tag": "mixed-in"
       "listen": "127.0.0.1",
-      "listen_port": 21022,
+      "listen_port": 1082,
       "sniff": true,
       "users": []
     }
-  ],  
+  ],
   "experimental": {
     "cache_file": {
-      "enabled": true,
-      "path": "cache.db",      
+      "enabled": true,      
       "store_fakeip": true
-    },
-    "clash_api": {
-      "external_controller": "0.0.0.0:9095",
-      "external_ui": "D:\\singbox\\ui",
-      "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
-      "external_ui_download_detour": "➡️ 直连",
-      "secret": "",
-      "default_mode": "rule"
-    }
+    }    
   },
   "log": {
     "disabled": false,
