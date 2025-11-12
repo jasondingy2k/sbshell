@@ -114,6 +114,7 @@
     },
     {
       "type": "mixed",
+      "tag": "mixed-in"
       "listen": "127.0.0.1",
       "listen_port": 21022,
       "sniff": true,
