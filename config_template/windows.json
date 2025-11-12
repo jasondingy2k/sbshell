@@ -125,8 +125,7 @@
     "cache_file": {
       "enabled": true,
       "path": "cache.db",
-      "store_fakeip": true
-    }    
+      "store_fakeip": true       
     },
     "clash_api": {
       "external_controller": "0.0.0.0:9095",
