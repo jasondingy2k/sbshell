@@ -109,14 +109,12 @@
       ],      
       "mtu": 9000,
       "auto_route": true,
-      "strict_route": false,
-      "sniff": true
+      "strict_route": false
     },
     {
       "type": "mixed",
       "listen": "127.0.0.1",
       "listen_port": 1082,
-      "sniff": true,
       "users": []
     }
   ],
