@@ -1,5 +1,5 @@
 {
- "http_clients": [{"tag": "rule-set-direct", "detour": "➡️ 直连"}],
+ "http_clients": [{"tag": "rule-set-direct"}],
  "dns": {
   "servers": [
     { "tag": "adgh", "type": "udp", "server": "192.168.1.4"}
