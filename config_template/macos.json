@@ -1,0 +1,106 @@
+{
+  "http_clients": [{"tag": "rule-set-direct"}],
+  "dns": {
+    "servers": [
+      {"tag": "local", "type": "udp", "server": "223.5.5.5"},
+      {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local"},
+      {"tag": "foreign", "type": "https", "server": "dns.google", "domain_resolver": "local"},
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
+    ],
+    "rules": [
+      {"clash_mode": "direct", "server": "local"},
+      {"clash_mode": "global", "server": "foreign"},
+      {"rule_set": ["geosite-cn", "geosite-apple"], "server": "local"},
+      {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
+    ],
+    "final": "public",
+    "strategy": "prefer_ipv4"
+  },
+  "outbounds": [
+    {"tag": "🚀 默认代理", "type": "selector", "outbounds": ["🌐 全部节点", "🇺🇸 美国节点", "🇰🇷 韩国节点", "🕹️ 手动选择", "➡️ 直连"]},
+    {"tag": "🕹️ 手动选择", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "exclude", "keywords": ["TCP", "TLS"]}]},
+    {"tag": "🇺🇸 美国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["racknerd", "bwg"]}, {"action": "exclude", "keywords": ["TCP", "TLS"]}]},
+    {"tag": "🇰🇷 韩国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["amdcc"]}, {"action": "exclude", "keywords": ["TCP", "TLS"]}]},
+    {"tag": "🧠 AI", "type": "selector", "outbounds": ["🚀 默认代理", "🇺🇸 美国节点", "🇰🇷 韩国节点", "🕹️ 手动选择", "➡️ 直连"]},
+    {"tag": "💬 Reddit", "type": "selector", "outbounds": ["🚀 默认代理", "🇺🇸 美国节点", "🇰🇷 韩国节点", "🕹️ 手动选择", "➡️ 直连"]},
+    {"tag": "🎥 Netflix", "type": "selector", "outbounds": ["🚀 默认代理", "🇺🇸 美国节点", "🇰🇷 韩国节点", "🕹️ 手动选择", "➡️ 直连"]},
+    {"tag": "🍎 Apple", "type": "selector", "outbounds": ["➡️ 直连", "🚀 默认代理"]},
+    {"tag": "🐟 漏网之鱼", "type": "selector", "outbounds": ["🚀 默认代理", "➡️ 直连"]},
+    {"tag": "➡️ 直连", "type": "direct"},
+    {"tag": "🌐 全部节点", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "exclude", "keywords": ["TCP", "TLS"]}]}
+  ],
+  "route": {
+    "default_http_client": "rule-set-direct",
+    "rules": [
+      {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
+      {"type": "logical", "mode": "or", "rules": [{"port": 53}, {"protocol": "dns"}], "action": "hijack-dns"},
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {"rule_set": "geosite-category-ads-all"},
+          {"domain_regex": "^stun\\..+"},
+          {"domain_keyword": ["stun", "httpdns"]},
+          {"protocol": "stun"}
+        ],
+        "action": "reject"
+      },
+      {"ip_is_private": true, "outbound": "➡️ 直连"},
+      {"domain_suffix": ["728966.xyz", "518989.xyz"], "outbound": "➡️ 直连"},
+      {"rule_set": "geosite-ai", "outbound": "🧠 AI"},
+      {"rule_set": "geosite-reddit", "outbound": "💬 Reddit"},
+      {"rule_set": "geosite-apple", "outbound": "🍎 Apple"},
+      {"rule_set": "geosite-netflix", "outbound": "🎥 Netflix"},
+      {"rule_set": "geosite-!cn", "outbound": "🚀 默认代理"},
+      {"rule_set": "geosite-cn", "outbound": "➡️ 直连"},
+      {"rule_set": "geoip-apple", "outbound": "🍎 Apple"},
+      {"rule_set": "geoip-netflix", "outbound": "🎥 Netflix"},
+      {"rule_set": "geoip-cn", "outbound": "➡️ 直连"}
+    ],
+    "rule_set": [
+      {"tag": "geosite-ai", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs", "update_interval": "72h"},
+      {"tag": "geosite-reddit", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/reddit.srs", "update_interval": "72h"},
+      {"tag": "geosite-apple", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple.srs", "update_interval": "72h"},
+      {"tag": "geosite-netflix", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/netflix.srs", "update_interval": "72h"},
+      {"tag": "geosite-!cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/geolocation-!cn.srs", "update_interval": "72h"},
+      {"tag": "geosite-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs", "update_interval": "72h"},
+      {"tag": "geosite-category-ads-all", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ads-all.srs", "update_interval": "72h"},
+      {"tag": "geoip-apple", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/apple.srs", "update_interval": "72h"},
+      {"tag": "geoip-netflix", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/netflix.srs", "update_interval": "72h"},
+      {"tag": "geoip-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://github.com/qljsyph/ruleset-icon/raw/refs/heads/main/sing-box/geoip/China-ASN-combined-ip.srs", "update_interval": "72h"}
+    ],
+    "final": "🐟 漏网之鱼",
+    "auto_detect_interface": false,
+    "default_interface": "en0",
+    "default_domain_resolver": {"server": "public"}
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 1500,
+      "auto_route": true
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890
+    }
+  ],
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    }
+  },
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  }
+}
