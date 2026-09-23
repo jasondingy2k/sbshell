@@ -71,9 +71,9 @@ Signed-By: /etc/apt/keyrings/sagernet.asc
         #fi
         # 获取 sing-box 的版本号
         version_output=$(sing-box version 2>/dev/null)
-        version=$(echo "$version_output" | grep -oE '1\.11\.[0-9]+')
+        # 检查 sing-box 版本（1.11 及以上）
+        version=$(echo "$version_output" | grep -oE '1\.1[1-9]\.[0-9]+')
 
-        # 检查是否为 1.11.x 版本
         if [[ -n "$version" ]]; then
             echo "检测到 sing-box 版本为 $version"
 
@@ -125,8 +125,8 @@ Signed-By: /etc/apt/keyrings/sagernet.asc
                 echo "未找到服务文件：$service_file"
             fi
         else
-            echo "当前 sing-box 版本非 1.11.x，跳过处理。"
-    fi 
+            echo "无法识别 sing-box 版本，跳过服务文件处理。"
+        fi
         # 重启 sing-box 服务
         sudo systemctl daemon-reload
         sudo systemctl restart sing-box

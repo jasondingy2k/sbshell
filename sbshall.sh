@@ -1,7 +1,7 @@
 #!/bin/bash
 # 定义主脚本的下载URL
-DEBIAN_MAIN_SCRIPT_URL="https://ghfast.top/https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/debian/menu.sh"
-OPENWRT_MAIN_SCRIPT_URL="https://gh-proxy.com/https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/openwrt/menu.sh"
+DEBIAN_MAIN_SCRIPT_URL="https://ghfast.top/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/debian/menu.sh"
+OPENWRT_MAIN_SCRIPT_URL="https://gh-proxy.com/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/openwrt/menu.sh"
  
 # 脚本下载目录
 SCRIPT_DIR="/etc/sing-box/scripts"

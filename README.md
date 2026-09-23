@@ -22,12 +22,13 @@ Sbshell 是一款针对 官方sing-box 的辅助运行脚本，旨在让官方si
 
 ## 一键脚本：(请自行安装curl和bash，如果缺少的话)
 ```
-bash <(curl -sL https://ghfast.top/https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/sbshall.sh)
+bash <(curl -sL https://ghfast.top/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/sbshall.sh)
 ```
 - 初始化运行结束，输入“**sb**”进入菜单
 - 目前支持系统为deiban/ubuntu/armbian/openwrt。  
 - 防火墙仅支持nftables，不支持iptables。
 - 非openwrt并使用2.1.2之前版本的用户想要升级并且使用1.12.X版本内核建议卸载重装
+- 使用1.13模板需将内核升级至1.13.x（菜单内“检查更新”切换稳定版即可）；1.12及更早模板使用旧版链接保持不变。
 
 ### 系统信息自动显示美化脚本： 
 ```
@@ -41,20 +42,20 @@ bash <(curl -sL https://gh-proxy.com/https://raw.githubusercontent.com/qljsyph/D
 
 ### 发行版1.12:
 fakeiptrpoxy:
-https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/config_template/config_fakeiptrpoxy12.json
+https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/config_template/config_fakeiptrpoxy12.json
 
 fakeiptun:
-https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/config_template/config_fakeiptun12.json
+https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/config_template/config_fakeiptun12.json
 
 tproxy:
-https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/config_template/config_trpoxy12.json
+https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/config_template/config_trpoxy12.json
 
 ### 发行版1.11：  
 tproxy：  
-https://gh-proxy.com/https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/config_template/config_tproxy.json  
+https://gh-proxy.com/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/config_template/config_tproxy.json  
 
 tun：  
-https://gh-proxy.com/https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/config_template/config_tun.json  
+https://gh-proxy.com/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/config_template/config_tun.json  
 
 ## 其他问题：
 

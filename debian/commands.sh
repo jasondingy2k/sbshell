@@ -53,7 +53,7 @@ function setup_singbox_permissions() {
     sudo chmod 770 /etc/sing-box
 
     version_output=$(sing-box version 2>/dev/null)
-    version=$(echo "$version_output" | grep -oE '1\.11\.[0-9]+')
+    version=$(echo "$version_output" | grep -oE '1\.1[1-9]\.[0-9]+')
 
     if [[ -n "$version" ]]; then
         echo "检测到 sing-box 版本为 $version"
@@ -103,7 +103,7 @@ function setup_singbox_permissions() {
             echo "未找到服务文件：$service_file"
         fi
     else
-        echo "当前 sing-box 版本非 1.11.x，跳过处理。"
+        echo "无法识别 sing-box 版本，跳过处理。"
     fi
 
     read -rp "按回车键返回二级菜单..."

@@ -2,7 +2,7 @@
 
 #################################################
 # 描述: Debian/Ubuntu/Armbian 官方sing-box 全自动脚本
-# 版本: 3.0.0
+# 版本: 3.1.0
 # 说明: Sing-box 服务管理脚本，提供客户端和服务端模式。
 #################################################
 
@@ -20,7 +20,7 @@ NC='\033[0m'
 SCRIPT_DIR="/etc/sing-box/scripts"
 INITIALIZED_FILE="$SCRIPT_DIR/.initialized"
 ROLE_FILE="$SCRIPT_DIR/.role"
-BASE_URL="https://ghfast.top/https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/debian"
+BASE_URL="https://ghfast.top/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/debian"
 ROLE="" # 运行角色: client 或 server
 
 # 脚本功能列表，按功能分组
@@ -58,6 +58,7 @@ SCRIPTS=(
     "kernel.sh"                # 更换/管理系统内核
     "optimize.sh"              # 网络性能优化
     "set_defaults.sh"          # 设置脚本默认参数
+    "hub.sh"                    # 订阅中枢(转换器+隧道)一键部署
     "delaytest.sh"             # 外网延迟测试脚本
     "commands.sh"              # 常用命令速查
 )
@@ -264,6 +265,8 @@ show_client_menu() {
     echo -e "${WHITE}12. 常用命令${NC}"
     echo -e "${WHITE}13. 更换XanMod内核${NC}"
     echo -e "${WHITE}14. 网络优化${NC}"
+    echo -e "${BOLD}${LIGHT_PURPLE}--- 订阅中枢 ---${NC}"
+    echo -e "${LIGHT_PURPLE}15. 部署/管理订阅中枢${NC}"
     echo -e "${CYAN}----------------------------------------------------${NC}"
     echo -e "${GREEN} 0. 退出${NC}"
     echo -e "${CYAN}====================================================${NC}"
@@ -291,6 +294,7 @@ handle_client_choice() {
         12) run_script "常用命令" "commands.sh" ;;
         13) run_script "更换XanMod内核" "kernel.sh" ;;
         14) run_script "网络优化" "optimize.sh" ;;
+        15) run_script "订阅中枢管理" "hub.sh" ;;
         0) exit 0 ;;
         *) echo -e "${RED}无效的选择${NC}" ;;
     esac

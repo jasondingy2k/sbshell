@@ -9,7 +9,7 @@ NC='\033[0m'
 CONFIG_DIR="/etc/sing-box"
 CONFIG_FILE="${CONFIG_DIR}/config.json"
 CONFIG_URL_FILE="${CONFIG_DIR}/config.url"
-DEFAULT_CONFIG_URL="https://raw.githubusercontent.com/qljsyph/sbshell/refs/heads/main/config_template/server/config.json"
+DEFAULT_CONFIG_URL="https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main/config_template/server/config.json"
 
 if [ ! -d "$CONFIG_DIR" ]; then
     echo -e "${RED}sing-box 未安装或配置文件目录不存在，请先执行安装。${NC}"
