@@ -31,7 +31,6 @@ WG_SUBNET_PREFIX="10.10.10"    # 隧道地址前缀, 自动分配时用
 # 模板默认指向本fork(1.13协议); macos.json 需先推送到fork
 GITHUB_RAW="https://gh-proxy.com/https://raw.githubusercontent.com/jasondingy2k/sbshell/refs/heads/main"
 DEFAULT_TEMPLATE_DEBIAN_TPROXY="${GITHUB_RAW}/config_template/debian.json"
-DEFAULT_TEMPLATE_DEBIAN_TUN="${GITHUB_RAW}/config_template/config_fakeiptun13.json"
 DEFAULT_TEMPLATE_WINDOWS="${GITHUB_RAW}/config_template/windows.json"
 DEFAULT_TEMPLATE_MAC="${GITHUB_RAW}/config_template/macos.json"
 DEFAULT_TEMPLATE_MOBILE="${GITHUB_RAW}/config_template/mobile.json"
@@ -60,7 +59,6 @@ HUB_SUB_URL="$HUB_SUB_URL"
 HUB_DOMAIN="$HUB_DOMAIN"
 HUB_TUNNEL_TOKEN="$HUB_TUNNEL_TOKEN"
 HUB_TEMPLATE_DEBIAN_TPROXY="$HUB_TEMPLATE_DEBIAN_TPROXY"
-HUB_TEMPLATE_DEBIAN_TUN="$HUB_TEMPLATE_DEBIAN_TUN"
 HUB_TEMPLATE_WINDOWS="$HUB_TEMPLATE_WINDOWS"
 HUB_TEMPLATE_MAC="$HUB_TEMPLATE_MAC"
 # Seafile 分发 (双轨: 设备可直连转换器, 也可拉 Seafile 静态链接)
@@ -93,8 +91,6 @@ prompt_conf() {
     echo -e "${YELLOW}模板URL直接回车使用默认(fork仓库1.13版):${NC}"
     read -rp "Debian TProxy模板 [$DEFAULT_TEMPLATE_DEBIAN_TPROXY]: " v
     HUB_TEMPLATE_DEBIAN_TPROXY="${v:-$DEFAULT_TEMPLATE_DEBIAN_TPROXY}"
-    read -rp "Debian TUN模板 [$DEFAULT_TEMPLATE_DEBIAN_TUN]: " v
-    HUB_TEMPLATE_DEBIAN_TUN="${v:-$DEFAULT_TEMPLATE_DEBIAN_TUN}"
     read -rp "Windows模板 [$DEFAULT_TEMPLATE_WINDOWS]: " v
     HUB_TEMPLATE_WINDOWS="${v:-$DEFAULT_TEMPLATE_WINDOWS}"
     read -rp "macOS模板 [$DEFAULT_TEMPLATE_MAC]: " v
@@ -205,7 +201,6 @@ show_links() {
     echo ""
     echo -e "${CYAN}================= 订阅链接 =================${NC}"
     echo -e "${GREEN}Debian(TProxy, 本机sbshell后端): ${NC}$SBS_URL/config/${HUB_SUB_URL}&file=${HUB_TEMPLATE_DEBIAN_TPROXY}"
-    echo -e "${GREEN}Debian(TUN): ${NC}$(build_url "$HUB_TEMPLATE_DEBIAN_TUN")"
     [ -n "$HUB_DOMAIN" ] && {
         echo -e "${GREEN}Windows: ${NC}$(build_url "$HUB_TEMPLATE_WINDOWS")"
         echo -e "${GREEN}macOS(SFM): ${NC}$(build_url "$HUB_TEMPLATE_MAC")"
