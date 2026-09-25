@@ -40,7 +40,8 @@ SBS_GIT="https://ghfast.top/https://github.com/Toperlock/sing-box-subscribe"
 load_conf() {
     if [ -f "$HUB_CONF" ]; then
         # 只 source key=value 行, 跳过 peer 段(| 分隔)和注释
-        grep -E '^[A-Z_]+=' "$HUB_CONF" | source /dev/stdin
+        # 注意: 不能用 `grep | source /dev/stdin`, 管道会使 source 进子 shell, 变量全部丢失
+        . <(grep -E '^[A-Z_]+=' "$HUB_CONF")
         return 0
     fi
     return 1
@@ -110,6 +111,10 @@ prompt_conf() {
 
 # --- 组件部署 ---
 install_deps() {
+    if dpkg -s python3-venv git curl >/dev/null 2>&1; then
+        echo -e "${YELLOW}基础依赖已安装, 跳过 apt${NC}"
+        return 0
+    fi
     echo -e "${CYAN}安装基础依赖(python3-venv git curl)...${NC}"
     sudo apt-get update -qq
     sudo apt-get install -yq python3-venv git curl
@@ -516,6 +521,9 @@ main() {
         list-peers) do_list_peers; exit 0 ;;
         del-peer)  do_del_peer "${2:-}"; exit 0 ;;
         ros-export) do_ros_export; exit 0 ;;
+        links)
+            load_conf && show_links
+            exit 0 ;;
         status)
             systemctl status "$SBS_SERVICE" --no-pager 2>/dev/null | head -5
             systemctl status "$CFD_SERVICE" --no-pager 2>/dev/null | head -5
