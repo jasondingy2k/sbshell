@@ -449,7 +449,8 @@ do_ros_export() {
         echo -e "${YELLOW}暂无 WG peer${NC}"; return
     fi
     echo ""
-    echo -e "${CYAN}========== RouterOS CLI (全量导出, 粘贴到 ROS 终端) ==========${NC}"
+    echo -e "${CYAN}========== 路由器恢复命令 (整段复制, 粘贴到 RouterOS 终端执行) ==========${NC}"
+    echo "# 作用: 让路由器重新认识你的所有 WireGuard 设备(手机/平板等), 设备本身不用改"
     echo "# 先删除旧 peers (如需):"
     echo "/interface/wireguard/peers remove [find interface=wireguard]"
     echo ""
@@ -540,7 +541,7 @@ manage_menu() {
         echo -e " 2. 添加 WG peer"
         echo -e " 3. 列出 WG peer"
         echo -e " 4. 删除 WG peer"
-        echo -e " 5. 导出全部 peer 的 ROS CLI"
+        echo -e " 5. 恢复路由器上的 WireGuard 设备 (重装/更换路由器后用)"
         echo -e " --- 生成与同步 ---"
         echo -e " 6. 生成配置并同步 Seafile (sync)"
         echo -e " --- 组件维护 ---"
