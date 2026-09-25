@@ -111,13 +111,13 @@ prompt_conf() {
 
 # --- 组件部署 ---
 install_deps() {
-    if dpkg -s python3-venv git curl >/dev/null 2>&1; then
+    if dpkg -s python3-venv git curl jq >/dev/null 2>&1; then
         echo -e "${YELLOW}基础依赖已安装, 跳过 apt${NC}"
         return 0
     fi
-    echo -e "${CYAN}安装基础依赖(python3-venv git curl)...${NC}"
+    echo -e "${CYAN}安装基础依赖(python3-venv git curl jq)...${NC}"
     sudo apt-get update -qq
-    sudo apt-get install -yq python3-venv git curl
+    sudo apt-get install -yq python3-venv git curl jq
 }
 
 install_sbs() {
