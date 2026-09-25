@@ -299,8 +299,9 @@ upload_seafile() {
 
 ensure_wg_tools() {
     command -v wg >/dev/null 2>&1 || {
-        echo -e "${CYAN}安装 wireguard-tools (用于生成密钥)...${NC}"
-        sudo apt-get install -yq wireguard-tools
+        # 提示与安装输出一律走 stderr, 避免污染 gen_wg_keypair 的命令替换捕获
+        echo -e "${CYAN}安装 wireguard-tools (用于生成密钥)...${NC}" >&2
+        sudo apt-get install -yq wireguard-tools >/dev/null
     }
 }
 
@@ -481,6 +482,7 @@ gen_and_sync_peer() {
     local line
     line=$(peers_lines | grep "^${name}|") || { echo -e "${RED}未找到 peer: ${name}${NC}"; return 1; }
     IFS='|' read -r p_name p_tmpl p_addr p_server p_port p_priv p_pub p_psk p_allowed <<< "$line"
+    local out="/tmp/hub_${p_name}.json"
 
     echo -e "${CYAN}[${p_name}] 转换中...${NC}"
     if ! curl -sf --max-time 60 "${SBS_URL}/config/${HUB_SUB_URL}&file=${p_tmpl}" -o "$out" || [ ! -s "$out" ]; then
