@@ -512,48 +512,66 @@ do_sync() {
     [ -n "$HUB_DOMAIN" ] && show_links
 }
 
-# --- 主流程 ---
-main() {
-    local action="${1:-install}"
+# --- 更新与卸载 (供 CLI 子命令和管理菜单共用) ---
+do_update() {
+    sudo systemctl stop "$SBS_SERVICE"
+    sudo git -C "$SBS_DIR" pull
+    sudo "${SBS_DIR}/venv/bin/pip" install --quiet -r "${SBS_DIR}/requirements.txt"
+    sudo systemctl start "$SBS_SERVICE"
+    echo -e "${GREEN}更新完成${NC}"
+}
 
-    case "$action" in
-        add-peer)  do_add_peer; exit 0 ;;
-        list-peers) do_list_peers; exit 0 ;;
-        del-peer)  do_del_peer "${2:-}"; exit 0 ;;
-        ros-export) do_ros_export; exit 0 ;;
-        links)
-            load_conf && show_links
-            exit 0 ;;
-        status)
-            systemctl status "$SBS_SERVICE" --no-pager 2>/dev/null | head -5
-            systemctl status "$CFD_SERVICE" --no-pager 2>/dev/null | head -5
-            exit 0 ;;
-        update)
-            sudo systemctl stop "$SBS_SERVICE"
-            sudo git -C "$SBS_DIR" pull
-            sudo "${SBS_DIR}/venv/bin/pip" install --quiet -r "${SBS_DIR}/requirements.txt"
-            sudo systemctl start "$SBS_SERVICE"
-            echo -e "${GREEN}更新完成${NC}"
-            exit 0 ;;
-        uninstall)
-            sudo systemctl disable --now "$SBS_SERVICE" "$CFD_SERVICE" 2>/dev/null
-            sudo rm -f /etc/systemd/system/${SBS_SERVICE}.service
-            sudo cloudflared service uninstall 2>/dev/null
-            sudo rm -rf "$SBS_DIR"
-            echo -e "${GREEN}已卸载组件 (hub.conf 保留)${NC}"
-            exit 0 ;;
-    esac
+do_uninstall() {
+    sudo systemctl disable --now "$SBS_SERVICE" "$CFD_SERVICE" 2>/dev/null
+    sudo rm -f /etc/systemd/system/${SBS_SERVICE}.service
+    sudo cloudflared service uninstall 2>/dev/null
+    sudo rm -rf "$SBS_DIR"
+    echo -e "${GREEN}已卸载组件 (hub.conf 保留)${NC}"
+}
 
-    # install 流程
-    if load_conf; then
-        echo -e "${YELLOW}检测到已有配置 $HUB_CONF${NC}"
-        read -rp "是否重新配置? (y/N): " reconf
-        [[ "$reconf" =~ ^[Yy]$ ]] && { prompt_conf; save_conf; }
-    else
-        prompt_conf
-        save_conf
-    fi
+# --- 管理菜单 (已有配置且不重新配置时进入) ---
+manage_menu() {
+    while true; do
+        echo ""
+        echo -e "${CYAN}=============== 订阅中枢管理 ===============${NC}"
+        echo -e " --- 配置 ---"
+        echo -e " 1. 查看订阅链接"
+        echo -e " --- WG peer 管理 ---"
+        echo -e " 2. 添加 WG peer"
+        echo -e " 3. 列出 WG peer"
+        echo -e " 4. 删除 WG peer"
+        echo -e " 5. 导出全部 peer 的 ROS CLI"
+        echo -e " --- 生成与同步 ---"
+        echo -e " 6. 生成配置并同步 Seafile (sync)"
+        echo -e " --- 组件维护 ---"
+        echo -e " 7. 组件运行状态"
+        echo -e " 8. 重新部署/检查组件 (依赖+转换器+隧道)"
+        echo -e " 9. 更新 sing-box-subscribe"
+        echo -e "10. 卸载组件 (保留 hub.conf)"
+        echo -e " 0. 退出"
+        echo -e "${CYAN}============================================${NC}"
+        read -rp "请选择: " m_choice
+        case "$m_choice" in
+            1)  show_links ;;
+            2)  do_add_peer ;;
+            3)  do_list_peers ;;
+            4)  read -rp "要删除的 peer 名称: " dn; do_del_peer "$dn" ;;
+            5)  do_ros_export ;;
+            6)  do_sync ;;
+            7)
+                systemctl status "$SBS_SERVICE" --no-pager 2>/dev/null | head -5
+                systemctl status "$CFD_SERVICE" --no-pager 2>/dev/null | head -5 ;;
+            8)  install_deps; install_sbs; install_cloudflared ;;
+            9)  do_update ;;
+            10) do_uninstall ;;
+            0)  exit 0 ;;
+            *)  echo -e "${RED}无效选择${NC}" ;;
+        esac
+    done
+}
 
+# --- 部署管线 (全新部署或重新配置后执行) ---
+run_install_flow() {
     install_deps
     install_sbs
     install_cloudflared
@@ -582,6 +600,45 @@ main() {
     [ -n "$HUB_DOMAIN" ] && echo -e "${YELLOW}别忘了在 CF Tunnel 的 Public Hostname 把 ${HUB_DOMAIN} 指到 http://localhost:5000${NC}"
     [ -n "$SEAFILE_URL" ] && echo -e "${YELLOW}如需生成mobile/windows配置并同步Seafile: hub.sh sync${NC}"
     show_links
+}
+
+# --- 主流程 ---
+main() {
+    local action="${1:-install}"
+
+    case "$action" in
+        add-peer)  do_add_peer; exit 0 ;;
+        list-peers) do_list_peers; exit 0 ;;
+        del-peer)  do_del_peer "${2:-}"; exit 0 ;;
+        ros-export) do_ros_export; exit 0 ;;
+        links)
+            load_conf && show_links
+            exit 0 ;;
+        sync)      do_sync; exit 0 ;;
+        status)
+            systemctl status "$SBS_SERVICE" --no-pager 2>/dev/null | head -5
+            systemctl status "$CFD_SERVICE" --no-pager 2>/dev/null | head -5
+            exit 0 ;;
+        update)    do_update; exit 0 ;;
+        uninstall) do_uninstall; exit 0 ;;
+    esac
+
+    # install 流程
+    if load_conf; then
+        echo -e "${YELLOW}检测到已有配置 $HUB_CONF${NC}"
+        read -rp "是否重新配置? (y/N): " reconf
+        if [[ "$reconf" =~ ^[Yy]$ ]]; then
+            prompt_conf
+            save_conf
+            run_install_flow
+        else
+            manage_menu
+        fi
+    else
+        prompt_conf
+        save_conf
+        run_install_flow
+    fi
 }
 
 main "$@"
