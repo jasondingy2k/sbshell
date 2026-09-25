@@ -59,6 +59,7 @@ save_conf() {
 HUB_SUB_URL="$HUB_SUB_URL"
 HUB_DOMAIN="$HUB_DOMAIN"
 HUB_TUNNEL_TOKEN="$HUB_TUNNEL_TOKEN"
+HUB_WG_SERVER_PUB="$HUB_WG_SERVER_PUB"
 HUB_TEMPLATE_DEBIAN_TPROXY="$HUB_TEMPLATE_DEBIAN_TPROXY"
 HUB_TEMPLATE_WINDOWS="$HUB_TEMPLATE_WINDOWS"
 HUB_TEMPLATE_MAC="$HUB_TEMPLATE_MAC"
@@ -228,12 +229,16 @@ inject_wg_endpoint() {
     local infile="$1" addr="$2" server="$3" port="$4" priv="$5" pub="$6" psk="$7" allowed="$8"
     [ -z "$addr" ] && { cp "$infile" "${infile}.wg"; return 0; }
 
+    # 客户端 peers[].public_key 必须是服务端接口公钥(ROS WG 接口的 Public Key),
+    # $6 是设备自己的公钥(只用于 ROS 侧 peer 条目), 不能混用
+    local server_pub="${HUB_WG_SERVER_PUB:-$6}"
+
     local allowed_arr
     allowed_arr=$(csv_to_jq_array "$allowed")
 
     local peer
     peer=$(jq -n \
-        --arg addr "$server" --arg port "$port" --arg pub "$pub" --arg psk "$psk" \
+        --arg addr "$server" --arg port "$port" --arg pub "$server_pub" --arg psk "$psk" \
         --argjson allowed "$allowed_arr" '
         {
             "address": $addr,
