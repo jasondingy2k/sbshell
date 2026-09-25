@@ -60,6 +60,7 @@ HUB_SUB_URL="$HUB_SUB_URL"
 HUB_DOMAIN="$HUB_DOMAIN"
 HUB_TUNNEL_TOKEN="$HUB_TUNNEL_TOKEN"
 HUB_WG_SERVER_PUB="$HUB_WG_SERVER_PUB"
+HUB_HOME_WIFI_SSID="$HUB_HOME_WIFI_SSID"
 HUB_TEMPLATE_DEBIAN_TPROXY="$HUB_TEMPLATE_DEBIAN_TPROXY"
 HUB_TEMPLATE_WINDOWS="$HUB_TEMPLATE_WINDOWS"
 HUB_TEMPLATE_MAC="$HUB_TEMPLATE_MAC"
@@ -233,6 +234,10 @@ inject_wg_endpoint() {
     # $6 是设备自己的公钥(只用于 ROS 侧 peer 条目), 不能混用
     local server_pub="${HUB_WG_SERVER_PUB:-$6}"
 
+    # 在家 WiFi 直连: SSID 匹配时全部 direct(家里已有 .2 透明代理), 规则置于 WG 分流之前
+    local home_arr
+    home_arr=$(csv_to_jq_array "${HUB_HOME_WIFI_SSID:-}")
+
     local allowed_arr
     allowed_arr=$(csv_to_jq_array "$allowed")
 
@@ -251,11 +256,12 @@ inject_wg_endpoint() {
     ')
 
     jq --arg addr "$addr" --arg priv "$priv" --arg detour "${WG_DETOUR:-$WG_DETOUR_DEFAULT}" \
-       --arg wgport "$port" --argjson allowed "$allowed_arr" --argjson peer "$peer" '
+       --arg wgport "$port" --argjson allowed "$allowed_arr" --argjson peer "$peer" --argjson home "$home_arr" '
         .route.rules = ([
-            {"network":"udp","port":($wgport|tonumber),"outbound":"direct"},
-            {"ip_cidr":$allowed,"outbound":"🛡️ wg-ep"}
-        ] + (.route.rules // []))
+            {"network":"udp","port":($wgport|tonumber),"outbound":"direct"}
+        ] + (if ($home|length) > 0 then [{"wifi_ssid":$home,"outbound":"direct"}] else [] end)
+        + [{"ip_cidr":$allowed,"outbound":"🛡️ wg-ep"}]
+        + (.route.rules // []))
         | .endpoints = ([{
             "type": "wireguard",
             "tag": "🛡️ wg-ep",
