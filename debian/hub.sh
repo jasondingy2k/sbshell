@@ -392,7 +392,7 @@ do_add_peer() {
             echo -e "${GREEN}  PresharedKey: ${psk}${NC}"
             ;;
     esac
-    read -rp "WG allowed_ips [192.168.1.0/24]: " allowed; allowed="${allowed:-192.168.1.0/24}"
+    read -rp "WG allowed_ips [192.168.1.0/24,10.10.10.0/24]: " allowed; allowed="${allowed:-192.168.1.0/24,10.10.10.0/24}"
 
     # 保存到 wg-peers.conf
     echo "${name}|${tmpl}|${addr}|${server}|${port}|${priv}|${pub}|${psk}|${allowed}" | sudo tee -a "$HUB_CONF" > /dev/null
@@ -629,7 +629,7 @@ main() {
     # install 流程
     if load_conf; then
         echo -e "${YELLOW}检测到已有配置 $HUB_CONF${NC}"
-        read -rp "是否重新配置? (y/N): " reconf
+        read -rp "回车保持现有配置进入管理菜单, 输入 y 重新配置: " reconf
         if [[ "$reconf" =~ ^[Yy]$ ]]; then
             prompt_conf
             save_conf
