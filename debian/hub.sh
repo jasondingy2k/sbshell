@@ -366,7 +366,7 @@ do_add_peer() {
     read -rp "回车确认或手动输入: " addr_override; addr="${addr_override:-$addr}"
 
     # WG 服务器 (ROS 接口的公网入口)
-    read -rp "WG 服务器地址 [728966.xyz]: " server; server="${server:-728966.xyz}"
+    read -rp "WG 服务器地址 [wg.728966.xyz]: " server; server="${server:-wg.728966.xyz}"
     read -rp "WG 端口 [58008]: " port; port="${port:-58008}"
 
     # 密钥: 生成新密钥对 或 导入已有 peer
