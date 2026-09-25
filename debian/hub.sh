@@ -285,14 +285,19 @@ upload_seafile() {
         echo -e "${RED}  ❌ Seafile 上传链接获取失败 ($name)${NC}"
         return 1
     fi
+    # Seafile 取的是本地文件名, 先落一个目标名字的副本再传 (否则会把 /tmp 里中间产物的名字带上去)
+    local named="/tmp/${name}"
+    cp "$file" "$named"
     if curl -sf --max-time 30 -H "Authorization: Token $SEAFILE_TOKEN" \
-         -F file=@"$file" -F parent_dir="$SEAFILE_DIR" -F replace=1 \
+         -F file=@"$named" -F parent_dir="$SEAFILE_DIR" -F replace=1 \
          "$upload_link" > /dev/null; then
         echo -e "${GREEN}  ✅ $name → Seafile 同步完成${NC}"
     else
         echo -e "${RED}  ❌ $name Seafile 上传失败${NC}"
+        rm -f "$named"
         return 1
     fi
+    rm -f "$named"
 }
 
 # --- WG peer 管理 (wg-peers.conf: name|tmpl|addr|server|port|priv|pub|psk|allowed) ---
